@@ -16,6 +16,9 @@ openshift_public_hostname: "{{ cluster_name }}.{{ openshift_base_domain }}"
 cluster_name_verbose: "{{ openshift_public_hostname | replace('.', '-') }}"
 cluster_group_name: "{{ cluster_name_verbose | replace('-', '_') }}"
 
-# The private key's integrity will be maintained. It is only used by Ansible to
-# connect to the bastion host.
-ec2_keypair_path: ~/.ssh/mykeypair.pem
+# The directory that contains public key material.
+keys_dir: /your/path/here/changeme!
+# The name of the ec2 instances public key.
+ec2_key_name: "{{ cluster_name_verbose }}"
+# The ec2 instances public key file.
+ec2_key_file: "{{ keys_dir }}/{{ ec2_key_name }}.pem"

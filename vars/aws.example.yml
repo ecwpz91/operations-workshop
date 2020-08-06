@@ -10,6 +10,17 @@ openshift_base_domain: example.com
 
 # The AWS region (i.e. `us-east-1`)
 aws_region: us-east-1
+# If you have Cloud Access setup for your account, set this to `cloud_access`. Otherwise, set this to `hourly`.
+ec2_ami_type: cloud_access
+# The ID of the Route53 hosted zone
+route53_hosted_zone_id: YP563J79RELJ4C
+
+# Your RHSM username.
+rhsm_username: foo@example.com
+# Your RHSM password.
+rhsm_password: P@55w0rD
+# The RHSM pool ID that contains OpenShift subscriptions.
+rhsm_pool: ba4e7732f8abcdad545c7f62df736d1f
 
 # Derived public DNS entry for your cluster.
 openshift_public_hostname: "{{ cluster_name }}.{{ openshift_base_domain }}"

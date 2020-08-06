@@ -5,8 +5,8 @@
 .workspace/
 
 vars/*
+!vars/.gitkeep
 !vars/aws.example.yml
-!vars/aws.example.env
 
 ###############################################################################
 # Python

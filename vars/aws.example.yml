@@ -1,0 +1,21 @@
+---
+
+# The name of the cluster.
+# This value will be in your DNS entries and should conform to valid DNS characters.
+cluster_name: openshift
+
+# The base subdomain to use for your cluster.
+# Example: If you set this to `example.com`, a DNS entry for `<cluster_name>.example.com` will be created)
+openshift_base_domain: example.com
+
+# The AWS region (i.e. `us-east-1`)
+aws_region: us-east-1
+
+# Derived public DNS entry for your cluster.
+openshift_public_hostname: "{{ cluster_name }}.{{ openshift_base_domain }}"
+cluster_name_verbose: "{{ openshift_public_hostname | replace('.', '-') }}"
+cluster_group_name: "{{ cluster_name_verbose | replace('-', '_') }}"
+
+# The private key's integrity will be maintained. It is only used by Ansible to
+# connect to the bastion host.
+ec2_keypair_path: ~/.ssh/mykeypair.pem

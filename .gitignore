@@ -1,5 +1,17 @@
-# Local development
+###############################################################################
+# Project
+###############################################################################
+
 .workspace/
+
+vars/*
+!vars/aws.example.yml
+!vars/aws.example.env
+
+###############################################################################
+# Python
+# https://github.com/github/gitignore/blob/master/Python.gitignore
+###############################################################################
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

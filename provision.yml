@@ -1,0 +1,44 @@
+---
+
+- hosts: localhost
+  connection: local
+
+  vars_files:
+   - vars/aws.example.yml
+
+  tasks:
+   - name: Gather bastion instance facts
+     ec2_instance_facts:
+      region: "{{ aws_region }}"
+      filters:
+       instance-state-name: running
+       "tag:OpenShiftClusterName": "{{ cluster_name }}"
+       "tag:OpenShiftClusterNameVerbose": "{{ cluster_name_verbose }}"
+       "tag:OpenShiftBastion": "true"
+     register: ec2_bastion_instance
+
+   - name: Add host facts to bastion node
+     add_host:
+       name: "bastion.{{ cluster_name }}.{{ openshift_base_domain }}"
+       ansible_host: "{{ ec2_bastion_instance['instances'][0]['public_ip_address'] }}"
+       ansible_ssh_private_key_file: "{{ ec2_keypair_path }}"
+       ansible_user: ec2-user
+       rhsm_consumer_name: "{{ ec2_bastion_instance['instances'][0]['tags']['Name'] }}"
+       groups:
+        - openshift_role_bastion
+        - "openshift_cluster_{{ cluster_group_name }}"
+
+- hosts: openshift_role_bastion:&openshift_cluster_{{ cluster_group_name }}
+  any_errors_fatal: yes
+
+  vars_files:
+   - vars/aws.example.yml
+
+  roles:
+   - install-idm
+
+  post_tasks:
+   - name: Confirmation message
+     debug:
+       msg: |
+        "The playbook has completed successfully."
